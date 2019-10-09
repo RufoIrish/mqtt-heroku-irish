@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+    <title>MQTT-irish</title>
+</head>
+
+<body>
+    <h2></h2>
+    <button id="off">off</button>
+    <button id="1">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+</body>
+
+</html>
+<script src="browserMqtt.js"></script>
+<script>
+    // import * as mqtt from 'socket.io-client';
+    var broker = true;
+    var topic = "irish";
+    var dt = new Date();
+    var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+    document.write(time);
+    var payload;
+    //  var mqtt=require('mqtt');
+    var client = mqtt.connect("ws://test.mosquitto.org:8080/mqtt");
+    // var on = client.on("connect")
+    $("#1").click(function () {
+        checkInput("1");
+    })
+    $("#2").click(function () {
+        checkInput("2");
+    })
+    $("#3").click(function () {
+        checkInput("3");
+
+    })
+    $("#off").click(function () {
+        checkInput("off");
+
+    })
+    function checkInput(label) {
+        $("h2").text("turned at " + label);
+        payload = "turned at " + label + " " + time;
+        client.publish(topic, payload);
+    }
+
+</script>
